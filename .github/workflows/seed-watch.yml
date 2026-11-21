@@ -1,0 +1,41 @@
+# Example: every Monday, re-seed your apps in PeekPanda and post new or dropped potential competitors to Slack or Discord.
+# Disabled until you set the repository variable ENABLE_SEED_SHORTLIST=true.
+# Secrets: PEEKPANDA_TOKEN (PeekPanda API key, required), SEED_WATCH_WEBHOOK_URL (optional).
+# Variables: SEED_APPS (required: comma-separated store IDs, e.g. 493145008,571800810; IDs save the search call),
+#            PEEKPANDA_TENANCY (optional: a workspace id; leave unset for a key pinned to one workspace).
+# Calls per run: 1 per store ID (2 per name). Read-only; nothing is adopted.
+name: seed-watch
+on:
+  schedule:
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+jobs:
+  watch:
+    if: vars.ENABLE_SEED_SHORTLIST == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/cache/restore@v4
+        with:
+          path: seed-state.json
+          key: seed-watch-state-${{ github.run_id }}
+          restore-keys: seed-watch-state-
+      - name: competitor seed shortlist
+        env:
+          PEEKPANDA_TOKEN: ${{ secrets.PEEKPANDA_TOKEN }}
+          PEEKPANDA_TENANCY: ${{ vars.PEEKPANDA_TENANCY }}
+          SEED_APPS: ${{ vars.SEED_APPS }}
+          SEED_WATCH_WEBHOOK_URL: ${{ secrets.SEED_WATCH_WEBHOOK_URL }}
+        run: |
+          set -- --apps "$SEED_APPS" --state seed-state.json
+          if [ -n "$PEEKPANDA_TENANCY" ]; then set -- "$@" --tenancy "$PEEKPANDA_TENANCY"; fi
+          if [ -n "$SEED_WATCH_WEBHOOK_URL" ]; then set -- "$@" --webhook "$SEED_WATCH_WEBHOOK_URL"; fi
+          node cli.js "$@" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: seed-state.json
+          key: seed-watch-state-${{ github.run_id }}

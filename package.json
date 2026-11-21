@@ -1,0 +1,14 @@
+{
+  "name": "competitor-seed-shortlist",
+  "version": "1.0.0",
+  "description": "Turn a list of your iOS apps (names, store IDs or App Store links) into a competitor shortlist with PeekPanda's seeded starter preview: up to five potential competitors per app with match reasons, shared searches, ratings and live paid ads. Weekly diff, Markdown/CSV/JSON and an optional Slack or Discord post.",
+  "type": "module",
+  "bin": { "competitor-seed-shortlist": "cli.js" },
+  "scripts": { "test": "node --test test/" },
+  "engines": { "node": ">=18" },
+  "license": "MIT",
+  "author": "Fekri Darkaoui",
+  "repository": { "type": "git", "url": "https://github.com/fdarkaou/competitor-seed-shortlist.git" },
+  "homepage": "https://fdarkaou.github.io/competitor-seed-shortlist/",
+  "keywords": ["app-store", "ios", "competitor-research", "competitor-analysis", "aso", "paid-ads", "mcp", "peekpanda"]
+}

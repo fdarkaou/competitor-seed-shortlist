@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Competitor seed shortlist: potential iOS competitors for each of your apps</title>
+<meta name="description" content="Paste PeekPanda's seeded starter previews and get a competitor shortlist per app: match reasons, shared searches, ratings, live paid ads, rivals shared across your apps and what changed since last week. Runs in your browser.">
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; color: #1b1b1f; }
+  textarea { width: 100%; min-height: 130px; font: 13px ui-monospace, monospace; }
+  button { padding: .45rem .9rem; margin: .5rem .5rem .5rem 0; cursor: pointer; }
+  table { border-collapse: collapse; width: 100%; margin-top: .5rem; font-size: 13px; }
+  th, td { border-bottom: 1px solid #ddd; padding: .35rem .5rem; text-align: left; vertical-align: top; }
+  td.num, th.num { text-align: right; }
+  .muted { color: #777; } .err { color: #cf222e; white-space: pre-wrap; }
+  .weak { color: #9a6700; }
+  .kpi { display: flex; flex-wrap: wrap; gap: .75rem; margin: .75rem 0; }
+  .kpi div { background: #f6f8fa; border-radius: 6px; padding: .4rem .8rem; min-width: 100px; } .kpi b { display: block; font-size: 20px; }
+  .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; } @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+  label { font-weight: 600; font-size: 14px; }
+  pre { background: #f6f8fa; padding: .75rem; overflow-x: auto; font-size: 13px; }
+  footer { margin-top: 2.5rem; font-size: 13px; color: #555; }
+  a { color: #0969da; }
+</style>
+</head>
+<body>
+<h1>Competitor seed shortlist</h1>
+<p>Who are the closest competitors of each of your iOS apps? PeekPanda can seed a starter preview with one app and return up to five potential competitors, each with the reason it matched (shared searches, similar listing, similar description or, weaker, same category). Paste one or more of those previews here and this page lays them out per app with ratings and live paid ads, lists competitors that show up for more than one of your apps, and, given last week's file, what joined or left. Nothing leaves your browser; this page never calls the API.</p>
+<div class="grid">
+  <div><label for="raw">Seeded previews</label><textarea id="raw" spellcheck="false" placeholder="The answer of GET /v1/starter-boards/app-<storeId>, an array of several, or the file the command-line version saves with --save"></textarea></div>
+  <div><label for="prev">Earlier run (optional)</label><textarea id="prev" spellcheck="false" placeholder="An earlier answer or --save file"></textarea></div>
+</div>
+<div>
+  <button id="go">Build shortlist</button>
+  <button id="ex">Load example data</button>
+  <button id="csv" disabled>Download CSV</button>
+</div>
+<div id="err" class="err"></div>
+<div id="out"></div>
+
+<h2>Where to get the JSON</h2>
+<p>The preview comes from <a href="https://peekpanda.com">PeekPanda</a>, an iOS competitor catalogue where every app has a case file of dated, stored evidence. It needs a PeekPanda account (scope <code>context:read</code>), counts as one call toward your plan's daily API and MCP allowance, and never starts collection. See <a href="https://peekpanda.com/docs/starter-boards-preview">Preview a starter board</a>; to find a store ID by name use <code>GET /v1/starter-boards/search?query=...</code>:</p>
+<pre>curl 'https://api.peekpanda.com/v1/starter-boards/app-493145008' \
+  --header "Authorization: Bearer $PEEKPANDA_TOKEN" > preview.json</pre>
+<p>The answer contains a <code>seed.previewToken</code> used to adopt the set as a board within 24 hours. You can leave it in; this page ignores it and never stores anything.</p>
+<footer>Part of a set of small PeekPanda API samples. Source and command-line version: <a href="https://github.com/fdarkaou/competitor-seed-shortlist">github.com/fdarkaou/competitor-seed-shortlist</a> (MIT). Example data is made up.</footer>
+
+<script type="module">
+import { seedReport, buildReport, diff, diffLines, toCsv, REASONS } from './seed.js';
+const $ = (id) => document.getElementById(id);
+const EX_RUN = {"tool":"competitor-seed-shortlist/raw","items":[{"resolved":{"input":"1000000001=our sleep app","label":"our sleep app"},"preview":{"key":"app-1000000001","label":"Example Sleep Coach","seed":{"storeId":"1000000001","matches":[{"storeId":"1000000011","matchReason":"shared_searches","sharedSearches":42},{"storeId":"1000000013","matchReason":"shared_searches","sharedSearches":35},{"storeId":"1000000012","matchReason":"similar_description","sharedSearches":null},{"storeId":"1000000004","matchReason":"same_category","sharedSearches":null}]},"apps":[{"storeId":"1000000001","name":"Example Sleep Coach","iconUrl":null,"developer":"Example Co","category":"Health & Fitness","rating":4.7,"ratingCount":48000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":120,"totalAds":900,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"sleep sounds","rank":1,"popularity":61,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"white noise","rank":2,"popularity":55,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000011","name":"Example Rain Sounds","iconUrl":null,"developer":"Rain Labs","category":"Health & Fitness","rating":4.6,"ratingCount":21000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":45,"totalAds":300,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"white noise","rank":1,"popularity":55,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"rain sounds","rank":2,"popularity":40,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000012","name":"Example Dream Journal","iconUrl":null,"developer":"Night Owl Apps","category":"Lifestyle","rating":4.4,"ratingCount":3200,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":null,"totalAds":null,"paidObservedAt":null,"paidAds":[],"keywords":[{"keyword":"dream journal","rank":1,"popularity":30,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":1,"keywordsLocked":0},{"storeId":"1000000013","name":"Example Calm Breath","iconUrl":null,"developer":"Breath Studio","category":"Health & Fitness","rating":4.8,"ratingCount":9000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":12,"totalAds":40,"paidObservedAt":"2026-11-05T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"sleep sounds","rank":1,"popularity":61,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"breathing","rank":2,"popularity":48,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000004","name":"Example Budget","iconUrl":null,"developer":"Example Co","category":"Finance","rating":4.8,"ratingCount":90000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":60,"totalAds":300,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"budget","rank":1,"popularity":70,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":1,"keywordsLocked":0}],"organicPosts":[],"organicPostsTotal":0,"organicPostsLocked":0}},{"resolved":{"input":"Example Budget","query":"Example Budget","ambiguous":false,"others":[{"storeId":"1000000099","name":"Example Budget Lite","developer":"Other Dev","category":"Finance","ratingCount":40}]},"preview":{"key":"app-1000000004","label":"Example Budget","seed":{"storeId":"1000000004","matches":[{"storeId":"1000000021","matchReason":"shared_searches","sharedSearches":28},{"storeId":"1000000022","matchReason":"similar_listing","sharedSearches":null},{"storeId":"1000000013","matchReason":"same_category","sharedSearches":null}]},"apps":[{"storeId":"1000000004","name":"Example Budget","iconUrl":null,"developer":"Example Co","category":"Finance","rating":4.8,"ratingCount":90000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":60,"totalAds":300,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"budget","rank":1,"popularity":70,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"expense tracker","rank":2,"popularity":58,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000021","name":"Example Envelopes","iconUrl":null,"developer":"Envelope Ltd","category":"Finance","rating":4.6,"ratingCount":12000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":55,"totalAds":120,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"budget","rank":1,"popularity":70,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"envelope budget","rank":2,"popularity":33,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000013","name":"Example Calm Breath","iconUrl":null,"developer":"Breath Studio","category":"Health & Fitness","rating":4.8,"ratingCount":9000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":12,"totalAds":40,"paidObservedAt":"2026-11-05T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"breathing","rank":1,"popularity":48,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":1,"keywordsLocked":0},{"storeId":"1000000022","name":"Example Split","iconUrl":null,"developer":"Split Co","category":"Finance","rating":4.4,"ratingCount":2000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":null,"totalAds":null,"paidObservedAt":null,"paidAds":[],"keywords":[{"keyword":"split bills","rank":1,"popularity":25,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":1,"keywordsLocked":0}],"organicPosts":[],"organicPostsTotal":0,"organicPostsLocked":0}}],"unresolved":[{"input":"Example Unknown","why":"no stored listing named like \"Example Unknown\""}]};
+const EX_PREV = {"tool":"competitor-seed-shortlist/raw","items":[{"resolved":{"input":"1000000001"},"preview":{"key":"app-1000000001","label":"Example Sleep Coach","seed":{"storeId":"1000000001","matches":[{"storeId":"1000000011","matchReason":"shared_searches","sharedSearches":38},{"storeId":"1000000013","matchReason":"similar_listing","sharedSearches":null},{"storeId":"1000000077","matchReason":"shared_searches","sharedSearches":20}]},"apps":[{"storeId":"1000000001","name":"Example Sleep Coach","iconUrl":null,"developer":"Example Co","category":"Health & Fitness","rating":4.7,"ratingCount":48000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":120,"totalAds":900,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"sleep sounds","rank":1,"popularity":61,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"white noise","rank":2,"popularity":55,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000011","name":"Example Rain Sounds","iconUrl":null,"developer":"Rain Labs","category":"Health & Fitness","rating":4.6,"ratingCount":21000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":30,"totalAds":300,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"white noise","rank":1,"popularity":55,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"rain sounds","rank":2,"popularity":40,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000012","name":"Example Dream Journal","iconUrl":null,"developer":"Night Owl Apps","category":"Lifestyle","rating":4.4,"ratingCount":3200,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":null,"totalAds":null,"paidObservedAt":null,"paidAds":[],"keywords":[{"keyword":"dream journal","rank":1,"popularity":30,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":1,"keywordsLocked":0},{"storeId":"1000000013","name":"Example Calm Breath","iconUrl":null,"developer":"Breath Studio","category":"Health & Fitness","rating":4.8,"ratingCount":9000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":12,"totalAds":40,"paidObservedAt":"2026-11-05T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"sleep sounds","rank":1,"popularity":61,"observedAt":"2026-11-18T00:00:00.000Z"},{"keyword":"breathing","rank":2,"popularity":48,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":2,"keywordsLocked":0},{"storeId":"1000000004","name":"Example Budget","iconUrl":null,"developer":"Example Co","category":"Finance","rating":4.8,"ratingCount":90000,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":60,"totalAds":300,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[{"keyword":"budget","rank":1,"popularity":70,"observedAt":"2026-11-18T00:00:00.000Z"}],"paidAdsLocked":0,"keywordsTotal":1,"keywordsLocked":0},{"storeId":"1000000077","name":"Example Old Rival","iconUrl":null,"developer":"Gone Inc","category":"Health & Fitness","rating":4.0,"ratingCount":500,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":3,"totalAds":9,"paidObservedAt":"2026-11-18T10:00:00.000Z","paidAds":[],"keywords":[],"paidAdsLocked":0,"keywordsTotal":0,"keywordsLocked":0}],"organicPosts":[],"organicPostsTotal":0,"organicPostsLocked":0}},{"resolved":{"input":"1000000088"},"preview":{"key":"app-1000000088","label":"Example Gone App","seed":{"storeId":"1000000088","matches":[]},"apps":[{"storeId":"1000000088","name":"Example Gone App","iconUrl":null,"developer":"X","category":"Finance","rating":4,"ratingCount":10,"listingObservedAt":"2026-11-19T01:00:00.000Z","liveAds":null,"totalAds":null,"paidObservedAt":null,"paidAds":[],"keywords":[],"paidAdsLocked":0,"keywordsTotal":0,"keywordsLocked":0}],"organicPosts":[],"organicPostsTotal":0,"organicPostsLocked":0}}],"unresolved":[]};
+const fmt = (n) => (n == null ? 'n/a' : Math.round(n).toLocaleString('en-US'));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let current = null;
+function parse(text, what) {
+  try { return JSON.parse(text); } catch { throw new Error(`${what} is not valid JSON.`); }
+}
+function toReport(j) {
+  if (j?.tool === 'competitor-seed-shortlist/raw') return buildReport(j.items.map((i) => seedReport(i.preview, i.resolved)), j.unresolved ?? []);
+  const list = Array.isArray(j) ? j : [j];
+  return buildReport(list.map((p) => seedReport(p)));
+}
+const ads = (a) => (a.liveAds == null ? '<span class="muted">never collected</span>' : `${fmt(a.liveAds)} / ${fmt(a.totalAds)}${a.paidObservedAt ? ` <span class="muted">${esc(a.paidObservedAt)}</span>` : ''}`);
+const rating = (a) => (a.rating == null ? 'n/a' : `${a.rating.toFixed(2)} <span class="muted">(${fmt(a.ratingCount)})</span>`);
+function run() {
+  $('err').textContent = ''; $('out').innerHTML = ''; $('csv').disabled = true;
+  try {
+    if (!$('raw').value.trim()) throw new Error('Paste a seeded preview first, or load the example.');
+    const report = toReport(parse($('raw').value, 'The previews'));
+    let d = null;
+    if ($('prev').value.trim()) d = diff(report, toReport(parse($('prev').value, 'The earlier run')));
+    current = report;
+    const weak = report.seeds.reduce((s, x) => s + x.rivals.filter((r) => r.reason === 'same_category').length, 0);
+    let h = `<div class="kpi"><div><b>${report.seeds.length}</b>apps seeded</div><div><b>${report.uniqueRivals}</b>distinct potential competitors</div><div><b>${report.shared.length}</b>shared by 2+ of your apps</div><div><b>${weak}</b>same-category (weaker) matches</div></div>`;
+    if (d) {
+      const L = diffLines(d, 10);
+      h += '<h3>Since the earlier run</h3>' + (L.length ? '<ul>' + L.map((l) => `<li>${esc(l)}</li>`).join('') + '</ul>' : '<p class="muted">No changes in the potential competitors.</p>');
+    }
+    for (const s of report.seeds) {
+      const a = s.seed;
+      h += `<h3>${esc(a.name)} <span class="muted">${esc(a.storeId)}${s.label ? ' · ' + esc(s.label) : ''}</span></h3>`;
+      if (s.ambiguous) h += `<p class="weak">Resolved "${esc(s.query)}" by search, but other listings match too: ${s.otherHits.slice(0, 4).map((x) => esc(`${x.name} (${x.storeId})`)).join(', ')}.</p>`;
+      h += `<p class="muted">${esc(a.developer ?? 'unknown developer')} · ${esc(a.category ?? 'no category')} · rating ${rating(a)} · live / total ads ${ads(a)}</p>`;
+      if (!s.rivals.length) { h += '<p class="muted">No potential competitors in this preview.</p>'; continue; }
+      h += '<table><thead><tr><th>#</th><th>Potential competitor</th><th>Why</th><th class="num">Shared searches</th><th class="num">Rating</th><th class="num">Live / total ads</th><th>Preview keywords in common</th></tr></thead><tbody>';
+      for (const r of s.rivals) h += `<tr><td>${r.position}</td><td>${esc(r.name)} <span class="muted">${esc(r.storeId)}</span>${r.alsoYourApp ? ' <em>(also in your list)</em>' : ''}</td><td class="${r.reason === 'same_category' ? 'weak' : ''}">${esc(REASONS[r.reason] ?? r.reason ?? 'n/a')}</td><td class="num">${r.sharedSearches == null ? '–' : fmt(r.sharedSearches)}</td><td class="num">${rating(r)}</td><td class="num">${ads(r)}</td><td>${esc(r.sharedPreviewKeywords.join(', ')) || '–'}</td></tr>`;
+      h += '</tbody></table>';
+    }
+    if (report.shared.length) h += '<h3>Showing up for more than one of your apps</h3><ul>' + report.shared.map((e) => `<li>${esc(e.name)} <span class="muted">${esc(e.storeId)}</span>: ${esc(e.seeds.join(', '))}</li>`).join('') + '</ul>';
+    if (report.unresolved.length) h += '<h3>Not seeded</h3><ul>' + report.unresolved.map((u) => `<li>${esc(u.input)}: ${esc(u.why)}</li>`).join('') + '</ul>';
+    h += '<p class="muted">Category is a weaker match, not proof of direct competition. Live ads are stored ad-library counts with their observation date; keywords are the five the preview shows per app.</p>';
+    $('out').innerHTML = h;
+    $('csv').disabled = false;
+  } catch (e) { $('err').textContent = e.message; }
+}
+$('go').onclick = run;
+$('ex').onclick = () => { $('raw').value = JSON.stringify(EX_RUN, null, 2); $('prev').value = JSON.stringify(EX_PREV, null, 2); run(); };
+$('csv').onclick = () => {
+  const el = document.createElement('a');
+  el.href = URL.createObjectURL(new Blob([toCsv(current)], { type: 'text/csv' }));
+  el.download = 'competitor-shortlist.csv'; el.click();
+};
+</script>
+</body>
+</html>

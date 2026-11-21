@@ -1,0 +1,351 @@
+{
+  "tool": "competitor-seed-shortlist/raw",
+  "items": [
+    {
+      "resolved": {
+        "input": "1000000001=our sleep app",
+        "label": "our sleep app"
+      },
+      "preview": {
+        "key": "app-1000000001",
+        "label": "Example Sleep Coach",
+        "seed": {
+          "storeId": "1000000001",
+          "matches": [
+            {
+              "storeId": "1000000011",
+              "matchReason": "shared_searches",
+              "sharedSearches": 42
+            },
+            {
+              "storeId": "1000000013",
+              "matchReason": "shared_searches",
+              "sharedSearches": 35
+            },
+            {
+              "storeId": "1000000012",
+              "matchReason": "similar_description",
+              "sharedSearches": null
+            },
+            {
+              "storeId": "1000000004",
+              "matchReason": "same_category",
+              "sharedSearches": null
+            }
+          ]
+        },
+        "apps": [
+          {
+            "storeId": "1000000001",
+            "name": "Example Sleep Coach",
+            "iconUrl": null,
+            "developer": "Example Co",
+            "category": "Health & Fitness",
+            "rating": 4.7,
+            "ratingCount": 48000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": 120,
+            "totalAds": 900,
+            "paidObservedAt": "2026-11-18T10:00:00.000Z",
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "sleep sounds",
+                "rank": 1,
+                "popularity": 61,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              },
+              {
+                "keyword": "white noise",
+                "rank": 2,
+                "popularity": 55,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 2,
+            "keywordsLocked": 0
+          },
+          {
+            "storeId": "1000000011",
+            "name": "Example Rain Sounds",
+            "iconUrl": null,
+            "developer": "Rain Labs",
+            "category": "Health & Fitness",
+            "rating": 4.6,
+            "ratingCount": 21000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": 45,
+            "totalAds": 300,
+            "paidObservedAt": "2026-11-18T10:00:00.000Z",
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "white noise",
+                "rank": 1,
+                "popularity": 55,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              },
+              {
+                "keyword": "rain sounds",
+                "rank": 2,
+                "popularity": 40,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 2,
+            "keywordsLocked": 0
+          },
+          {
+            "storeId": "1000000012",
+            "name": "Example Dream Journal",
+            "iconUrl": null,
+            "developer": "Night Owl Apps",
+            "category": "Lifestyle",
+            "rating": 4.4,
+            "ratingCount": 3200,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": null,
+            "totalAds": null,
+            "paidObservedAt": null,
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "dream journal",
+                "rank": 1,
+                "popularity": 30,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 1,
+            "keywordsLocked": 0
+          },
+          {
+            "storeId": "1000000013",
+            "name": "Example Calm Breath",
+            "iconUrl": null,
+            "developer": "Breath Studio",
+            "category": "Health & Fitness",
+            "rating": 4.8,
+            "ratingCount": 9000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": 12,
+            "totalAds": 40,
+            "paidObservedAt": "2026-11-05T10:00:00.000Z",
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "sleep sounds",
+                "rank": 1,
+                "popularity": 61,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              },
+              {
+                "keyword": "breathing",
+                "rank": 2,
+                "popularity": 48,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 2,
+            "keywordsLocked": 0
+          },
+          {
+            "storeId": "1000000004",
+            "name": "Example Budget",
+            "iconUrl": null,
+            "developer": "Example Co",
+            "category": "Finance",
+            "rating": 4.8,
+            "ratingCount": 90000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": 60,
+            "totalAds": 300,
+            "paidObservedAt": "2026-11-18T10:00:00.000Z",
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "budget",
+                "rank": 1,
+                "popularity": 70,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 1,
+            "keywordsLocked": 0
+          }
+        ],
+        "organicPosts": [],
+        "organicPostsTotal": 0,
+        "organicPostsLocked": 0
+      }
+    },
+    {
+      "resolved": {
+        "input": "Example Budget",
+        "query": "Example Budget",
+        "ambiguous": false,
+        "others": [
+          {
+            "storeId": "1000000099",
+            "name": "Example Budget Lite",
+            "developer": "Other Dev",
+            "category": "Finance",
+            "ratingCount": 40
+          }
+        ]
+      },
+      "preview": {
+        "key": "app-1000000004",
+        "label": "Example Budget",
+        "seed": {
+          "storeId": "1000000004",
+          "matches": [
+            {
+              "storeId": "1000000021",
+              "matchReason": "shared_searches",
+              "sharedSearches": 28
+            },
+            {
+              "storeId": "1000000022",
+              "matchReason": "similar_listing",
+              "sharedSearches": null
+            },
+            {
+              "storeId": "1000000013",
+              "matchReason": "same_category",
+              "sharedSearches": null
+            }
+          ]
+        },
+        "apps": [
+          {
+            "storeId": "1000000004",
+            "name": "Example Budget",
+            "iconUrl": null,
+            "developer": "Example Co",
+            "category": "Finance",
+            "rating": 4.8,
+            "ratingCount": 90000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": 60,
+            "totalAds": 300,
+            "paidObservedAt": "2026-11-18T10:00:00.000Z",
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "budget",
+                "rank": 1,
+                "popularity": 70,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              },
+              {
+                "keyword": "expense tracker",
+                "rank": 2,
+                "popularity": 58,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 2,
+            "keywordsLocked": 0
+          },
+          {
+            "storeId": "1000000021",
+            "name": "Example Envelopes",
+            "iconUrl": null,
+            "developer": "Envelope Ltd",
+            "category": "Finance",
+            "rating": 4.6,
+            "ratingCount": 12000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": 55,
+            "totalAds": 120,
+            "paidObservedAt": "2026-11-18T10:00:00.000Z",
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "budget",
+                "rank": 1,
+                "popularity": 70,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              },
+              {
+                "keyword": "envelope budget",
+                "rank": 2,
+                "popularity": 33,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 2,
+            "keywordsLocked": 0
+          },
+          {
+            "storeId": "1000000013",
+            "name": "Example Calm Breath",
+            "iconUrl": null,
+            "developer": "Breath Studio",
+            "category": "Health & Fitness",
+            "rating": 4.8,
+            "ratingCount": 9000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": 12,
+            "totalAds": 40,
+            "paidObservedAt": "2026-11-05T10:00:00.000Z",
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "breathing",
+                "rank": 1,
+                "popularity": 48,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 1,
+            "keywordsLocked": 0
+          },
+          {
+            "storeId": "1000000022",
+            "name": "Example Split",
+            "iconUrl": null,
+            "developer": "Split Co",
+            "category": "Finance",
+            "rating": 4.4,
+            "ratingCount": 2000,
+            "listingObservedAt": "2026-11-19T01:00:00.000Z",
+            "liveAds": null,
+            "totalAds": null,
+            "paidObservedAt": null,
+            "paidAds": [],
+            "keywords": [
+              {
+                "keyword": "split bills",
+                "rank": 1,
+                "popularity": 25,
+                "observedAt": "2026-11-18T00:00:00.000Z"
+              }
+            ],
+            "paidAdsLocked": 0,
+            "keywordsTotal": 1,
+            "keywordsLocked": 0
+          }
+        ],
+        "organicPosts": [],
+        "organicPostsTotal": 0,
+        "organicPostsLocked": 0
+      }
+    }
+  ],
+  "unresolved": [
+    {
+      "input": "Example Unknown",
+      "why": "no stored listing named like \"Example Unknown\""
+    }
+  ]
+}
